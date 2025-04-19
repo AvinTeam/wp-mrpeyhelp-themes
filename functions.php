@@ -1,6 +1,6 @@
 <?php
 
-define('MPH_VERSION', '1.2.9');
+define('MPH_VERSION', '1.3.0');
 
 define('MPH_PATH', get_template_directory() . "/");
 define('MPH_INCLUDES', MPH_PATH . 'includes/');
@@ -32,7 +32,6 @@ if (is_admin()) {
     require_once MPH_INCLUDES . '/install.php';
     require_once MPH_INCLUDES . '/handle_download.php';
     require_once MPH_INCLUDES . '/dashboard_widget.php';
-
 
 }
 

@@ -1,6 +1,6 @@
 <?php (defined('ABSPATH')) || exit;
 
-$mph_db = new Mph_Row;
+    $mph_db = new Mph_Row;
 
 ?>
 
@@ -16,8 +16,8 @@ img {
 
 
 body {
-    background-color: <?php echo $mph_option[ 'view'][ 'body_color'];
-    ?>;
+    background-color:                      <?php echo $mph_option[ 'view' ][ 'body_color' ];
+                      ?>;
 }
 
 #mph_Form_payment {
@@ -31,40 +31,40 @@ body {
 
 
 #mph_Form_payment button {
-    background-color: <?php echo $mph_option[ 'view'][ 'button_color'];
-    ?>;
-    border-color: <?php echo $mph_option[ 'view'][ 'button_color'];
-    ?>;
+    background-color:                      <?php echo $mph_option[ 'view' ][ 'button_color' ];
+                      ?>;
+    border-color:                  <?php echo $mph_option[ 'view' ][ 'button_color' ];
+                  ?>;
 }
 
 #mph_Form_payment .form-label {
-    color: <?php echo $mph_option[ 'view'][ 'input_label_color'];
-    ?>;
+    color:           <?php echo $mph_option[ 'view' ][ 'input_label_color' ];
+           ?>;
 }
 
 #mph_Form_payment input,
 #mph_Form_payment select {
-    border-color: <?php echo $mph_option[ 'view'][ 'input_border_color'];
-    ?>;
-    background-color: <?php echo $mph_option[ 'view'][ 'body_color'];
-    ?>;
+    border-color:                  <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
+                  ?>;
+    background-color:                      <?php echo $mph_option[ 'view' ][ 'body_color' ];
+                      ?>;
     color: #FFF !important;
 }
 
 #mph_Form_payment input[type="range"]::-webkit-slider-thumb {
-    background: <?php echo $mph_option[ 'view'][ 'input_border_color'];
-    ?>;
+    background:                <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
+                ?>;
 }
 
 #mph_Form_payment input[type="range"]::-moz-range-thumb {
-    background: <?php echo $mph_option[ 'view'][ 'input_border_color'];
-    ?>;
+    background:                <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
+                ?>;
 }
 
 
 #mph_Form_payment #amount {
-    color: <?php echo $mph_option[ 'view'][ 'input_border_color'];
-    ?>;
+    color:           <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
+           ?>;
 }
 </style>
 
@@ -86,61 +86,73 @@ body {
 
         <?php
 
-if (isset($_GET[ 'Authority' ]) && isset($_GET[ 'Status' ])) {
-    $payid = sanitize_text_field($_GET[ 'Authority' ]);
-    $get_amount = $mph_db->get('payid', $payid);
-    if ($_GET[ 'Status' ] == 'OK') {
+            if (isset($_GET[ 'Authority' ]) && isset($_GET[ 'Status' ])) {
+                $payid      = sanitize_text_field($_GET[ 'Authority' ]);
+                $get_amount = $mph_db->get('payid', $payid);
 
-        $data = array(
-            'merchant_id' => $mph_option[ 'merchant_id' ],
-            'authority' => $payid,
-            'amount' => $get_amount->amount,
-        );
+                if ($_GET[ 'Status' ] == 'OK') {
 
-        $headers = array(
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        );
+                    $data = [
+                        'merchant_id' => $mph_option[ 'merchant_id' ],
+                        'authority'   => $payid,
+                        'amount'      => $get_amount->amount,
+                     ];
 
-        $response = wp_remote_post(
-            'https://payment.zarinpal.com/pg/v4/payment/verify.json',
-            array(
-                'method' => 'POST',
-                'body' => wp_json_encode($data), // تبدیل آرایه به JSON
-                'headers' => $headers,
-                'timeout' => 1500,
-            )
-        );
+                    $headers = [
+                        'Content-Type' => 'application/json',
+                        'Accept'       => 'application/json',
+                     ];
 
-        if (is_wp_error($response)) {
-            // اگر خطایی رخ داده باشد
-            $error_message = $response->get_error_message();
-            echo "خطا: $error_message";
-        } else {
+                    $response = wp_remote_post(
+                        'https://payment.zarinpal.com/pg/v4/payment/verify.json',
+                        [
+                            'method'  => 'POST',
+                            'body'    => wp_json_encode($data), // تبدیل آرایه به JSON
+                            'headers' => $headers,
+                            'timeout' => 1500,
+                         ]
+                    );
 
-            // پاسخ موفقیت‌آمیز
-            $body = wp_remote_retrieve_body($response); // محتوای پاسخ
+                    if (is_wp_error($response)) {
+                        // اگر خطایی رخ داده باشد
+                        $error_message = $response->get_error_message();
+                        echo "خطا: $error_message";
+                    } else {
 
-            $body = json_decode($body);
+                                                                    // پاسخ موفقیت‌آمیز
+                        $body = wp_remote_retrieve_body($response); // محتوای پاسخ
 
-            if ($body->data->code == 100) {
+                        $body = json_decode($body);
 
-                $mph_db->update(
-                    [ 'type' => 'successful' ],
-                    [ 'payid' => $payid ],
-                    [ '%s' ],
-                    [ '%s' ]
-                );
-                ?>
+                        if ($body->data->code == 100) {
+
+                            $mph_db->update(
+                                [ 'type' => 'successful' ],
+                                [ 'payid' => $payid ],
+                                [ '%s' ],
+                                [ '%s' ]
+                            );
+
+                        ?>
         <div class="mb-3 col-12">
             <div id="mph_form_danger" class="alert alert-success" role="alert">
                 <h5 class="alert-heading">تراکنش موفق</h5>
-                <p><strong>شماره تراكنش: </strong><?=$body->data->ref_id?></p>
-                <p><strong>شماره کارت: </strong><?=$body->data->card_pan?></p>
+                <p><strong>شماره تراكنش: </strong><?php echo $body->data->ref_id ?></p>
+                <p><strong>شماره کارت: </strong><?php echo $body->data->card_pan ?></p>
             </div>
         </div>
         <?php
-} elseif ($body->data->code == 101) {?>
+
+                            if (function_exists('mrsms_send_sms')) {
+
+                                $mobile  = $get_amount->mobile;
+                                $massage = $mph_option[ 'send_sms_text' ];
+
+                                mrsms_send_sms($mobile, $massage);
+
+                            }
+
+                    } elseif ($body->data->code == 101) {?>
 
         <div class="mb-3 col-12">
             <div id="mph_form_danger" class="alert alert-danger" role="alert">
@@ -148,22 +160,22 @@ if (isset($_GET[ 'Authority' ]) && isset($_GET[ 'Status' ])) {
             </div>
         </div>
         <?php
-}
-        }
-    } elseif ($_GET[ 'Status' ] == 'NOK') {
-        $mph_db->update(
-            [ 'type' => 'failed' ],
-            [ 'payid' => $payid ],
-            [ '%s' ],
-            [ '%s' ]
-        );?>
+            }
+                    }
+                } elseif ($_GET[ 'Status' ] == 'NOK') {
+                    $mph_db->update(
+                        [ 'type' => 'failed' ],
+                        [ 'payid' => $payid ],
+                        [ '%s' ],
+                        [ '%s' ]
+                ); ?>
         <div class="mb-3 col-12">
             <div id="mph_form_danger" class="alert alert-danger" role="alert">
                 <p><strong>خطا تراکنش: </strong>به نظر میرسد مشکلی پیش آمده شما میتوانید از راه های دیگه اقدام کنید</p>
             </div>
         </div>
         <?php
-} elseif ($_GET[ 'Status' ] == 'Server-Error') {?>
+        } elseif ($_GET[ 'Status' ] == 'Server-Error') {?>
 
         <div class="mb-3 col-12">
             <div id="mph_form_danger" class="alert alert-danger" role="alert">
@@ -189,7 +201,9 @@ if (isset($_GET[ 'Authority' ]) && isset($_GET[ 'Status' ])) {
             </div>
         </div>
         <?php }
-}?>
+            }
+
+        ?>
 
 
 
@@ -198,34 +212,35 @@ if (isset($_GET[ 'Authority' ]) && isset($_GET[ 'Status' ])) {
 
 
 
-            <div class="mb-3 col-lg-6 col-md-6 col-sm-12  <?php if (!$mph_option[ 'user_name' ]) {echo 'mph_none';}?> ">
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12 <?php if (! $mph_option[ 'user_name' ]) {echo 'mph_none';}?> ">
                 <label for="user_name" class="form-label">لطفا نام و نام خانوادگی خود را وارد نمائید: </label>
                 <input type="text" dir="rtl" class="form-control" name="user_name" id="user_name"
                     placeholder="نام و نام خانوادگی">
             </div>
 
             <div
-                class="mb-3  <?php if ($mph_option[ 'user_name' ]) {echo 'col-lg-6 col-md-6 col-sm-12 ';}else{echo 'col-12'; }?>   ">
+                class="mb-3<?php if ($mph_option[ 'user_name' ]) {echo 'col-lg-6 col-md-6 col-sm-12 ';} else {echo 'col-12';}?>   ">
                 <label for="user_mobile" class="form-label">لطفا شماره همراه خود را وارد نمائید: </label>
                 <input type="text" dir="rtl" class="form-control" name="user_mobile" id="user_mobile"
                     placeholder="شماره همراه">
             </div>
 
-
-            <div class="mb-3 col-lg-6 col-md-6 col-sm-12  <?php if (!$mph_option[ 'ostan' ]) {echo 'mph_none';}?>  ">
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12 <?php if (! $mph_option[ 'ostan' ]) {echo 'mph_none';}?>  ">
                 <label for="user_ostan" class="form-label">استان:</label>
                 <select name="user_ostan" id="user_ostan" class="form-select" required>
                     <?php echo $ostan_row; ?>
                 </select>
             </div>
-            <div class="mb-3 col-lg-6 col-md-6 col-sm-12 <?php if (!$mph_option[ 'ostan' ]) {echo 'mph_none';}?>">
+            <div
+                class="mb-3 col-lg-6 col-md-6 col-sm-12  <?php if (! $mph_option[ 'ostan' ]) {echo 'mph_none';}?>">
                 <label for="user_shahr" class="form-label">از کدام شهرستان:</label>
                 <select name="user_shahr" id="user_shahr" class="form-select" required>
                     <option value="0">انتخاب شهرستان</option>
                 </select>
             </div>
-            <div class="mb-3 col-12  <?php if (!$mph_option[ 'users_can_unit' ]) {echo 'mph_none';}?>  ">
-                <label for="customRange1" class="form-label">تعداد <?php echo $mph_option[ 'name_unit' ]; ?>:</label>
+            <div
+                class="mb-3 col-12                             <?php if (! $mph_option[ 'users_can_unit' ]) {echo 'mph_none';}?>  ">
+                <label for="customRange1" class="form-label">تعداد                                                                        <?php echo $mph_option[ 'name_unit' ]; ?>:</label>
                 <div class="position-relative">
                     <span id="rangeValue" class="position-absolute translate-middle">1</span>
                     <input name="rangeValue" type="range" class="" id="customRange1" min="1" value="1"

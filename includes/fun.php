@@ -6,36 +6,45 @@ function mph_start_working(): void
 
     $mph_option = get_option('mph_option');
 
-    if (!isset($mph_option[ 'version' ]) || version_compare(MPH_VERSION, $mph_option[ 'version' ], '>')) {
+    if (! is_plugin_active('mrsendesms/mrsendesms.php')) {
+        $mph_option[ 'send_sms' ] = 0;
+
+        update_option('mph_option', $mph_option);
+    }
+
+    if (! isset($mph_option[ 'version' ]) || version_compare(MPH_VERSION, $mph_option[ 'version' ], '>')) {
 
         update_option(
             'mph_option',
             [
-                'version' => MPH_VERSION,
-                'user_name' => (isset($mph_option[ 'user_name' ])) ? filter_var($mph_option[ 'user_name' ], FILTER_VALIDATE_BOOLEAN) : false,
+                'version'        => MPH_VERSION,
+                'user_name'      => (isset($mph_option[ 'user_name' ])) ? filter_var($mph_option[ 'user_name' ], FILTER_VALIDATE_BOOLEAN) : false,
                 'users_can_unit' => (isset($mph_option[ 'users_can_unit' ])) ? filter_var($mph_option[ 'users_can_unit' ], FILTER_VALIDATE_BOOLEAN) : false,
-                'ostan' => (isset($mph_option[ 'ostan' ])) ? filter_var($mph_option[ 'ostan' ], FILTER_VALIDATE_BOOLEAN) : false,
-                'pay' => (isset($mph_option[ 'pay' ])) ? $mph_option[ 'pay' ] : 0,
-                'all_unit' => (isset($mph_option[ 'all_unit' ])) ? $mph_option[ 'all_unit' ] : 500,
-                'name_unit' => (isset($mph_option[ 'name_unit' ])) ? sanitize_text_field($mph_option[ 'name_unit' ]) : 'پرس',
-                'merchant_id' => (isset($mph_option[ 'merchant_id' ])) ? $mph_option[ 'merchant_id' ] : '',
-                'view' => [
-                    'button_color' => (isset($mph_option[ 'view' ][ 'button_color' ])) ? $mph_option[ 'view' ][ 'button_color' ] : '#daae5c',
+                'ostan'          => (isset($mph_option[ 'ostan' ])) ? filter_var($mph_option[ 'ostan' ], FILTER_VALIDATE_BOOLEAN) : false,
+                'pay'            => (isset($mph_option[ 'pay' ])) ? $mph_option[ 'pay' ] : 0,
+                'all_unit'       => (isset($mph_option[ 'all_unit' ])) ? $mph_option[ 'all_unit' ] : 500,
+                'name_unit'      => (isset($mph_option[ 'name_unit' ])) ? sanitize_text_field($mph_option[ 'name_unit' ]) : 'پرس',
+                'merchant_id'    => (isset($mph_option[ 'merchant_id' ])) ? $mph_option[ 'merchant_id' ] : '',
+                'send_sms'       => (isset($mph_option[ 'send_sms' ])) ? $mph_option[ 'send_sms' ] : 0,
+                'send_sms_text'       => (isset($mph_option[ 'send_sms_text' ])) ? $mph_option[ 'send_sms_text' ] : '',
+
+                'view'           => [
+                    'button_color'       => (isset($mph_option[ 'view' ][ 'button_color' ])) ? $mph_option[ 'view' ][ 'button_color' ] : '#daae5c',
                     'input_border_color' => (isset($mph_option[ 'view' ][ 'input_border_color' ])) ? $mph_option[ 'view' ][ 'input_border_color' ] : '#daae5c',
-                    'input_label_color' => (isset($mph_option[ 'view' ][ 'input_label_color' ])) ? $mph_option[ 'view' ][ 'input_label_color' ] : '#daae5c',
-                    'body_color' => (isset($mph_option[ 'view' ][ 'body_color' ])) ? $mph_option[ 'view' ][ 'body_color' ] : '#1b3f75',
+                    'input_label_color'  => (isset($mph_option[ 'view' ][ 'input_label_color' ])) ? $mph_option[ 'view' ][ 'input_label_color' ] : '#daae5c',
+                    'body_color'         => (isset($mph_option[ 'view' ][ 'body_color' ])) ? $mph_option[ 'view' ][ 'body_color' ] : '#1b3f75',
                  ],
-                'logo' => [
+                'logo'           => [
                     'header_image' => (isset($mph_option[ 'logo' ][ 'header_image' ])) ? $mph_option[ 'logo' ][ 'header_image' ] : '',
                     'footer_image' => (isset($mph_option[ 'logo' ][ 'footer_image' ])) ? $mph_option[ 'logo' ][ 'footer_image' ] : '',
 
                  ],
-                'text' => [
+                'text'           => [
                     'header_text' => (isset($mph_option[ 'text' ][ 'header_text' ])) ? wp_kses_post(wp_unslash($mph_option[ 'text' ][ 'header_text' ])) : '',
                     'footer_text' => (isset($mph_option[ 'text' ][ 'footer_text' ])) ? wp_kses_post(wp_unslash($mph_option[ 'text' ][ 'footer_text' ])) : '',
 
                  ],
-                'cart' => (isset($mph_option[ 'cart' ])) ? $mph_option[ 'cart' ] : [  ],
+                'cart'           => (isset($mph_option[ 'cart' ])) ? $mph_option[ 'cart' ] : [  ],
              ]
 
             //
@@ -63,12 +72,12 @@ function mph_remote(string $url)
 
     if (is_wp_error($res)) {
         $result = [
-            'code' => 1,
+            'code'   => 1,
             'result' => $res->get_error_message(),
          ];
     } else {
         $result = [
-            'code' => 0,
+            'code'   => 0,
             'result' => json_decode($res[ 'body' ]),
          ];
     }
@@ -111,31 +120,37 @@ function mph_update_option($data)
     $mph_option = get_option('mph_option');
 
     $mph_option = [
-        'version' => MPH_VERSION,
-        'user_name' => (isset($data[ 'user_name' ])) || false,
+        'version'        => MPH_VERSION,
+        'user_name'      => (isset($data[ 'user_name' ])) || false,
         'users_can_unit' => (isset($data[ 'users_can_unit' ])) || false,
-        'ostan' => (isset($data[ 'ostan' ])) || false,
-        'all_unit' => (isset($data[ 'all_unit' ])) ? sanitize_text_field(str_replace(',', '', $data[ 'all_unit' ])) : $mph_option[ 'all_unit' ],
-        'name_unit' => (isset($data[ 'name_unit' ])) ? sanitize_text_field($data[ 'name_unit' ]) : $mph_option[ 'name_unit' ],
-        'pay' => (isset($data[ 'pay' ])) ? sanitize_text_field(str_replace(',', '', $data[ 'pay' ])) : $mph_option[ 'pay' ],
-        'merchant_id' => (isset($data[ 'merchant_id' ])) ? $data[ 'merchant_id' ] : $mph_option[ 'merchant_id' ],
-        'view' => [
-            'button_color' => (isset($data[ 'button_color' ])) ? sanitize_hex_color($data[ 'button_color' ]) : $mph_option[ 'view' ][ 'button_color' ],
+        'ostan'          => (isset($data[ 'ostan' ])) || false,
+        'all_unit'       => (isset($data[ 'all_unit' ])) ? sanitize_text_field(str_replace(',', '', $data[ 'all_unit' ])) : $mph_option[ 'all_unit' ],
+        'name_unit'      => (isset($data[ 'name_unit' ])) ? sanitize_text_field($data[ 'name_unit' ]) : $mph_option[ 'name_unit' ],
+        'pay'            => (isset($data[ 'pay' ])) ? sanitize_text_field(str_replace(',', '', $data[ 'pay' ])) : $mph_option[ 'pay' ],
+        'merchant_id'    => (isset($data[ 'merchant_id' ])) ? $data[ 'merchant_id' ] : $mph_option[ 'merchant_id' ],
+        'send_sms'       => (isset($data[ 'send_sms' ])) ? $data[ 'send_sms' ] : $mph_option[ 'send_sms' ],
+        'send_sms_text'       => (isset($data[ 'send_sms_text' ])) ? $data[ 'send_sms_text' ] : $mph_option[ 'send_sms_text' ],
+
+        'view'           => [
+            'button_color'       => (isset($data[ 'button_color' ])) ? sanitize_hex_color($data[ 'button_color' ]) : $mph_option[ 'view' ][ 'button_color' ],
             'input_border_color' => (isset($data[ 'input_border_color' ])) ? sanitize_hex_color($data[ 'input_border_color' ]) : $mph_option[ 'view' ][ 'input_border_color' ],
-            'input_label_color' => (isset($data[ 'input_label_color' ])) ? sanitize_hex_color($data[ 'input_label_color' ]) : $mph_option[ 'view' ][ 'input_label_color' ],
-            'body_color' => (isset($data[ 'body_color' ])) ? sanitize_hex_color($data[ 'body_color' ]) : $mph_option[ 'view' ][ 'body_color' ],
+            'input_label_color'  => (isset($data[ 'input_label_color' ])) ? sanitize_hex_color($data[ 'input_label_color' ]) : $mph_option[ 'view' ][ 'input_label_color' ],
+            'body_color'         => (isset($data[ 'body_color' ])) ? sanitize_hex_color($data[ 'body_color' ]) : $mph_option[ 'view' ][ 'body_color' ],
          ],
-        'logo' => [
+
+        'logo'           => [
             'header_image' => (isset($data[ 'header_image' ])) ? $data[ 'header_image' ] : $mph_option[ 'logo' ][ 'header_image' ],
             'footer_image' => (isset($data[ 'footer_image' ])) ? $data[ 'footer_image' ] : $mph_option[ 'logo' ][ 'footer_image' ],
 
          ],
-        'text' => [
+
+        'text'           => [
             'header_text' => (isset($data[ 'header_text' ])) ? wp_kses_post(wp_unslash($data[ 'header_text' ])) : $mph_option[ 'text' ][ 'header_text' ],
             'footer_text' => (isset($data[ 'footer_text' ])) ? wp_kses_post(wp_unslash($data[ 'footer_text' ])) : $mph_option[ 'text' ][ 'footer_text' ],
 
          ],
-        'cart' => (isset($data[ 'cart' ])) ? $data[ 'cart' ] : $mph_option[ 'cart' ],
+
+        'cart'           => (isset($data[ 'cart' ])) ? $data[ 'cart' ] : $mph_option[ 'cart' ],
 
      ];
 
@@ -146,8 +161,8 @@ function mph_update_option($data)
 function tarikh($data, $time = "")
 {
     $data1 = "";
-    if (!empty($data)) {
-        $arr = explode(" ", $data);
+    if (! empty($data)) {
+        $arr  = explode(" ", $data);
         $data = $arr[ 0 ];
 
         $arrayData = [ '/', '-' ];
@@ -160,11 +175,11 @@ function tarikh($data, $time = "")
 
                 if ($arrayData == '/') {
                     $tagir = '-';
-                    $chen = 'jalali_to_gregorian';
+                    $chen  = 'jalali_to_gregorian';
                 }
                 if ($arrayData == '-') {
                     $tagir = '/';
-                    $chen = 'gregorian_to_jalali';
+                    $chen  = 'gregorian_to_jalali';
                 }
 
                 $data1 = $chen($gy, $gm, $gd, $tagir);
@@ -190,8 +205,8 @@ function get_current_relative_url()
     // گرفتن مسیر فعلی بدون دامنه
     $path = esc_url_raw(wp_unslash($_SERVER[ 'REQUEST_URI' ]));
 
-    // حذف دامنه و فقط نگه داشتن مسیر نسبی + پارامترها
-    $relative_url = strtok($path, '?'); // مسیر قبل از پارامترها
+                                                // حذف دامنه و فقط نگه داشتن مسیر نسبی + پارامترها
+    $relative_url = strtok($path, '?');         // مسیر قبل از پارامترها
     $query_string = $_SERVER[ 'QUERY_STRING' ]; // پارامترهای GET
 
     // اگر پارامتر وجود داره، به مسیر اضافه کن
@@ -209,7 +224,7 @@ function get_name_by_id($data, $id)
     });
 
     // برگرداندن اولین مقدار پیدا شده
-    if (!empty($filtered)) {
+    if (! empty($filtered)) {
         return array_values($filtered)[ 0 ]->name;
     }
     return null;
@@ -237,15 +252,15 @@ function Change_the_heade($results)
                 break;
         }
 
-        $city = mph_remote('https://api.mrrashidpour.com/iran/cities.json');
+        $city      = mph_remote('https://api.mrrashidpour.com/iran/cities.json');
         $provinces = mph_remote('https://api.mrrashidpour.com/iran/provinces.json');
 
-        $row[ 'وضعیت' ] = $type;
-        $row[ 'تاریخ و ساعت' ] = tarikh($result[ 'created_at' ]);
-        $row[ 'مبلغ' ] = (absint($result[ 'amount' ])) ? number_format(absint($result[ 'amount' ])) : 0;
-        $row[ 'شهر' ] = ($city[ 'code' ] == 0 && absint($result[ 'city' ])) ? get_name_by_id($city[ 'result' ], absint($result[ 'city' ])) : 'نامعلوم';
-        $row[ 'استان' ] = ($provinces[ 'code' ] == 0 && absint($result[ 'ostan' ])) ? get_name_by_id($provinces[ 'result' ], absint($result[ 'ostan' ])) : 'نامعلوم';
-        $row[ 'شماره موبایل' ] = $result[ 'mobile' ];
+        $row[ 'وضعیت' ]                        = $type;
+        $row[ 'تاریخ و ساعت' ]            = tarikh($result[ 'created_at' ]);
+        $row[ 'مبلغ' ]                          = (absint($result[ 'amount' ])) ? number_format(absint($result[ 'amount' ])) : 0;
+        $row[ 'شهر' ]                            = ($city[ 'code' ] == 0 && absint($result[ 'city' ])) ? get_name_by_id($city[ 'result' ], absint($result[ 'city' ])) : 'نامعلوم';
+        $row[ 'استان' ]                        = ($provinces[ 'code' ] == 0 && absint($result[ 'ostan' ])) ? get_name_by_id($provinces[ 'result' ], absint($result[ 'ostan' ])) : 'نامعلوم';
+        $row[ 'شماره موبایل' ]           = $result[ 'mobile' ];
         $row[ 'نام و نام خانوادگی' ] = $result[ 'user_name' ];
 
         $data[  ] = $row;
@@ -270,11 +285,11 @@ function time_difference($time)
     // دسته‌بندی فاصله
     $seconds = $difference;
     $minutes = floor($difference / 60);
-    $hours = floor($difference / 3600);
-    $days = floor($difference / 86400);
-    $weeks = floor($difference / 604800);
-    $months = floor($difference / 2592000); // تقریباً 30 روز
-    $years = floor($difference / 31536000); // 365 روز
+    $hours   = floor($difference / 3600);
+    $days    = floor($difference / 86400);
+    $weeks   = floor($difference / 604800);
+    $months  = floor($difference / 2592000);  // تقریباً 30 روز
+    $years   = floor($difference / 31536000); // 365 روز
 
     $new_time = 'آلان';
 

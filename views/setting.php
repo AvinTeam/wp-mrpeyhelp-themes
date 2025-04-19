@@ -1,6 +1,6 @@
 <?php
-(defined('ABSPATH')) || exit;
-global $title;?>
+    (defined('ABSPATH')) || exit;
+global $title; ?>
 
 <div id="wpbody-content">
     <div class="wrap">
@@ -22,9 +22,49 @@ global $title;?>
         <?php set_transient('success_mph', '');}?>
 
         <form method="post" action="" novalidate="novalidate" class="mph_form">
-            <?php wp_nonce_field('mph_nonce' . get_current_user_id());?>
+            <?php wp_nonce_field('mph_nonce' . get_current_user_id()); ?>
+
+
+            <?php
+
+            if (is_plugin_active('mrsendesms/mrsendesms.php')): ?>
             <table class="form-table" role="presentation">
-            <caption>تنظیمات مالی</caption>
+
+                <caption>تنظیمات پیامک</caption>
+                <tbody>
+
+                    <tr>
+                        <th scope="row">ارسال پیامک</th>
+                        <td>
+                            <fieldset>
+                                <label><input type="radio" name="send_sms" <?php checked($mph_option[ 'send_sms' ], 1)?>
+                                        value="1">
+                                    <span class="date-time-text">بله</span></label>
+                                <label><input type="radio" name="send_sms" <?php checked($mph_option[ 'send_sms' ], 0)?>
+                                        value="0"> <span class="date-time-text">خیر</span></label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="row"><label for="send_sms_text">متن پیامک </label></th>
+                        <td>
+                            <textarea rows="4" name="send_sms_text" type="number" id="send_sms_text"
+                                class="regular-text"><?php echo $mph_option[ 'send_sms_text' ]?></textarea>
+                        </td>
+                    </tr>
+
+
+
+
+                </tbody>
+            </table>
+
+            <?php endif; ?>
+            <table class="form-table" role="presentation">
+
+                <caption>تنظیمات مالی</caption>
 
                 <tbody>
                     <tr>
@@ -66,7 +106,8 @@ global $title;?>
                     <tr>
                         <th scope="row"><label for="payInput">مبلغ به ازای هر واحد (ریال)</label></th>
                         <td><input name="pay" type="text" id="payInput"
-                                value="<?php echo number_format(esc_html($mph_option[ 'pay' ])); ?>" class="regular-text">
+                                value="<?php echo number_format(esc_html($mph_option[ 'pay' ])); ?>"
+                                class="regular-text">
                         </td>
                     </tr>
                     <tr>
@@ -79,8 +120,7 @@ global $title;?>
                     <tr>
                         <th scope="row"><label for="name_unit">عنوان واحد</label></th>
                         <td><input name="name_unit" type="text" id="name_unit"
-                                value="<?php echo esc_html($mph_option[ 'name_unit' ]); ?>"
-                                class="regular-text"></td>
+                                value="<?php echo esc_html($mph_option[ 'name_unit' ]); ?>" class="regular-text"></td>
                     </tr>
 
                     <tr>
@@ -93,7 +133,7 @@ global $title;?>
                 </tbody>
             </table>
             <table class="form-table" role="presentation">
-            <caption>تنظیمات ظاهری</caption>
+                <caption>تنظیمات ظاهری</caption>
                 <tbody>
                     <tr>
                         <th scope="row"><label for="body_color">رنگ پس زمینه</label></th>
@@ -129,24 +169,25 @@ global $title;?>
                     <tr class="form-field form-required term-name-wrap mph_logo">
                         <th scope="row"><label for="header_image">انتخاب هدر سایت</label></th>
                         <td><input name="header_image" id="header_image" type="url"
-                                value="<?=$mph_option[ 'logo' ][ 'header_image' ]?>" class="mph_img_input regular-text " aria-describedby="header_image"><br>
-                            <button type="button" class="button button-secondary mph_select_img"
-                                id="mph_logo">انتخاب تصویر</button>
+                                value="<?php echo $mph_option[ 'logo' ][ 'header_image' ] ?>"
+                                class="mph_img_input regular-text " aria-describedby="header_image"><br>
+                            <button type="button" class="button button-secondary mph_select_img" id="mph_logo">انتخاب
+                                تصویر</button>
                             <p class="description" id="url_logo_description"><img style="max-height: 108px;"
-                                    src="<?=$mph_option[ 'logo' ][ 'header_image' ]?>">
+                                    src="<?php echo $mph_option[ 'logo' ][ 'header_image' ] ?>">
                             </p>
                         </td>
                     </tr>
                     <tr class="form-field term-name-wrap mph_background">
                         <th scope="row"><label for="footer_image">انتخاب فوتر سایت</label></th>
                         <td><input name="footer_image" id="footer_image" type="url"
-                                value="<?=$mph_option[ 'logo' ][ 'footer_image' ]?>" class="mph_img_input regular-text "
-                                aria-describedby="url_background_description"><br>
+                                value="<?php echo $mph_option[ 'logo' ][ 'footer_image' ] ?>"
+                                class="mph_img_input regular-text " aria-describedby="url_background_description"><br>
                             <button type="button" class="button button-secondary mph_select_img"
                                 id="mph_background">انتخاب
                                 بنر</button>
                             <p class="description" id="url_background_description"><img style="max-height: 108px;"
-                                    src="<?=$mph_option[ 'logo' ][ 'footer_image' ]?>">
+                                    src="<?php echo $mph_option[ 'logo' ][ 'footer_image' ] ?>">
                             </p>
                         </td>
                     </tr>
@@ -154,7 +195,8 @@ global $title;?>
             </table>
 
             <p class="submit">
-                <button type="submit" name="mph_act" value="mph__submit" id="submit" class="button button-primary">ذخیرهٔ
+                <button type="submit" name="mph_act" value="mph__submit" id="submit"
+                    class="button button-primary">ذخیرهٔ
                     تغییرات</button>
             </p>
         </form>
@@ -164,9 +206,3 @@ global $title;?>
 
     <div class="clear"></div>
 </div>
-
-
-
-
-
-
