@@ -150,7 +150,14 @@ global $title; ?>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="input_border_color">برنگ حاشیه فیلد ها</label></th>
+                        <th scope="row"><label for="button_color_text">رنگ متن دکمه پرداخت</label></th>
+                        <td><input name="button_color_text" type="text" id="button_color_text"
+                                value="<?php echo esc_html($mph_option[ 'view' ][ 'button_color_text' ]); ?>"
+                                class="regular-text input_color">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="input_border_color">رنگ حاشیه فیلد ها</label></th>
                         <td>
                             <input name="input_border_color" type="text" id="input_border_color"
                                 value="<?php echo esc_html($mph_option[ 'view' ][ 'input_border_color' ]); ?>"
@@ -158,10 +165,18 @@ global $title; ?>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="input_label_color">برنگ متن فیلد ها</label></th>
+                        <th scope="row"><label for="input_label_color">رنگ متن فیلد ها</label></th>
                         <td>
                             <input name="input_label_color" type="text" id="input_label_color"
                                 value="<?php echo esc_html($mph_option[ 'view' ][ 'input_label_color' ]); ?>"
+                                class="regular-text input_color">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="input_text_color">رنگ متن داخل فیلد ها</label></th>
+                        <td>
+                            <input name="input_text_color" type="text" id="input_text_color"
+                                value="<?php echo esc_html($mph_option[ 'view' ][ 'input_text_color' ]); ?>"
                                 class="regular-text input_color">
                         </td>
                     </tr>

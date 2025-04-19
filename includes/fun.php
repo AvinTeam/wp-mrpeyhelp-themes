@@ -30,8 +30,10 @@ function mph_start_working(): void
 
                 'view'           => [
                     'button_color'       => (isset($mph_option[ 'view' ][ 'button_color' ])) ? $mph_option[ 'view' ][ 'button_color' ] : '#daae5c',
+                    'button_color_text'       => (isset($mph_option[ 'view' ][ 'button_color_text' ])) ? $mph_option[ 'view' ][ 'button_color_text' ] : '#FFFFFF',
                     'input_border_color' => (isset($mph_option[ 'view' ][ 'input_border_color' ])) ? $mph_option[ 'view' ][ 'input_border_color' ] : '#daae5c',
                     'input_label_color'  => (isset($mph_option[ 'view' ][ 'input_label_color' ])) ? $mph_option[ 'view' ][ 'input_label_color' ] : '#daae5c',
+                    'input_text_color'  => (isset($mph_option[ 'view' ][ 'input_text_color' ])) ? $mph_option[ 'view' ][ 'input_text_color' ] : '#FFFFFF',
                     'body_color'         => (isset($mph_option[ 'view' ][ 'body_color' ])) ? $mph_option[ 'view' ][ 'body_color' ] : '#1b3f75',
                  ],
                 'logo'           => [
@@ -133,8 +135,10 @@ function mph_update_option($data)
 
         'view'           => [
             'button_color'       => (isset($data[ 'button_color' ])) ? sanitize_hex_color($data[ 'button_color' ]) : $mph_option[ 'view' ][ 'button_color' ],
+            'button_color_text'       => (isset($data[ 'button_color_text' ])) ? sanitize_hex_color($data[ 'button_color_text' ]) : $mph_option[ 'view' ][ 'button_color_text' ],
             'input_border_color' => (isset($data[ 'input_border_color' ])) ? sanitize_hex_color($data[ 'input_border_color' ]) : $mph_option[ 'view' ][ 'input_border_color' ],
             'input_label_color'  => (isset($data[ 'input_label_color' ])) ? sanitize_hex_color($data[ 'input_label_color' ]) : $mph_option[ 'view' ][ 'input_label_color' ],
+            'input_text_color'  => (isset($data[ 'input_text_color' ])) ? sanitize_hex_color($data[ 'input_text_color' ]) : $mph_option[ 'view' ][ 'input_text_color' ],
             'body_color'         => (isset($data[ 'body_color' ])) ? sanitize_hex_color($data[ 'body_color' ]) : $mph_option[ 'view' ][ 'body_color' ],
          ],
 

@@ -16,8 +16,8 @@ img {
 
 
 body {
-    background-color:                      <?php echo $mph_option[ 'view' ][ 'body_color' ];
-                      ?>;
+    background-color: <?php echo $mph_option[ 'view'][ 'body_color'];
+    ?>;
 }
 
 #mph_Form_payment {
@@ -31,40 +31,52 @@ body {
 
 
 #mph_Form_payment button {
-    background-color:                      <?php echo $mph_option[ 'view' ][ 'button_color' ];
-                      ?>;
-    border-color:                  <?php echo $mph_option[ 'view' ][ 'button_color' ];
-                  ?>;
+    background-color: <?php echo $mph_option[ 'view'][ 'button_color'];
+    ?> !important;
+    border-color: <?php echo $mph_option[ 'view'][ 'button_color'];
+    ?> !important;
+    color: <?php echo $mph_option[ 'view'][ 'button_color_text'];
+    ?> !important;
 }
 
 #mph_Form_payment .form-label {
-    color:           <?php echo $mph_option[ 'view' ][ 'input_label_color' ];
-           ?>;
+    color: <?php echo $mph_option[ 'view'][ 'input_label_color'];
+    ?>;
 }
 
 #mph_Form_payment input,
 #mph_Form_payment select {
-    border-color:                  <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
-                  ?>;
-    background-color:                      <?php echo $mph_option[ 'view' ][ 'body_color' ];
-                      ?>;
-    color: #FFF !important;
+    border-color: <?php echo $mph_option[ 'view'][ 'input_border_color'];
+    ?>;
+    background-color: <?php echo $mph_option[ 'view'][ 'body_color'];
+    ?>;
+    color: <?php echo $mph_option[ 'view'][ 'input_text_color'];
+    ?> !important;
+}
+
+
+
+#mph_Form_payment input::placeholder {
+
+    color: <?php echo $mph_option[ 'view'][ 'input_text_color'];
+    ?> !important;
+    opacity: 0.6;
 }
 
 #mph_Form_payment input[type="range"]::-webkit-slider-thumb {
-    background:                <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
-                ?>;
+    background: <?php echo $mph_option[ 'view'][ 'input_border_color'];
+    ?>;
 }
 
 #mph_Form_payment input[type="range"]::-moz-range-thumb {
-    background:                <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
-                ?>;
+    background: <?php echo $mph_option[ 'view'][ 'input_border_color'];
+    ?>;
 }
 
 
 #mph_Form_payment #amount {
-    color:           <?php echo $mph_option[ 'view' ][ 'input_border_color' ];
-           ?>;
+    color: <?php echo $mph_option[ 'view'][ 'input_border_color'];
+    ?>;
 }
 </style>
 
@@ -143,7 +155,7 @@ body {
         </div>
         <?php
 
-                            if (function_exists('mrsms_send_sms')) {
+                            if (function_exists('mrsms_send_sms') && $mph_option[ 'send_sms' ]) {
 
                                 $mobile  = $get_amount->mobile;
                                 $massage = $mph_option[ 'send_sms_text' ];
@@ -212,7 +224,8 @@ body {
 
 
 
-            <div class="mb-3 col-lg-6 col-md-6 col-sm-12 <?php if (! $mph_option[ 'user_name' ]) {echo 'mph_none';}?> ">
+            <div
+                class="mb-3 col-lg-6 col-md-6 col-sm-12                                                         <?php if (! $mph_option[ 'user_name' ]) {echo 'mph_none';}?> ">
                 <label for="user_name" class="form-label">لطفا نام و نام خانوادگی خود را وارد نمائید: </label>
                 <input type="text" dir="rtl" class="form-control" name="user_name" id="user_name"
                     placeholder="نام و نام خانوادگی">
@@ -221,26 +234,27 @@ body {
             <div
                 class="mb-3<?php if ($mph_option[ 'user_name' ]) {echo 'col-lg-6 col-md-6 col-sm-12 ';} else {echo 'col-12';}?>   ">
                 <label for="user_mobile" class="form-label">لطفا شماره همراه خود را وارد نمائید: </label>
-                <input type="text" dir="rtl" class="form-control" name="user_mobile" id="user_mobile"
-                    placeholder="شماره همراه">
+                <input type="text" inputmode="numeric" pattern="\d*" class="onlyNumbersInput form-control"
+                    name="user_mobile" id="user_mobile" dir="rtl" placeholder="شماره همراه">
             </div>
 
-            <div class="mb-3 col-lg-6 col-md-6 col-sm-12 <?php if (! $mph_option[ 'ostan' ]) {echo 'mph_none';}?>  ">
+            <div
+                class="mb-3 col-lg-6 col-md-6 col-sm-12                                                         <?php if (! $mph_option[ 'ostan' ]) {echo 'mph_none';}?>  ">
                 <label for="user_ostan" class="form-label">استان:</label>
                 <select name="user_ostan" id="user_ostan" class="form-select" required>
                     <?php echo $ostan_row; ?>
                 </select>
             </div>
             <div
-                class="mb-3 col-lg-6 col-md-6 col-sm-12  <?php if (! $mph_option[ 'ostan' ]) {echo 'mph_none';}?>">
+                class="mb-3 col-lg-6 col-md-6 col-sm-12                                                          <?php if (! $mph_option[ 'ostan' ]) {echo 'mph_none';}?>">
                 <label for="user_shahr" class="form-label">از کدام شهرستان:</label>
                 <select name="user_shahr" id="user_shahr" class="form-select" required>
                     <option value="0">انتخاب شهرستان</option>
                 </select>
             </div>
             <div
-                class="mb-3 col-12                             <?php if (! $mph_option[ 'users_can_unit' ]) {echo 'mph_none';}?>  ">
-                <label for="customRange1" class="form-label">تعداد                                                                        <?php echo $mph_option[ 'name_unit' ]; ?>:</label>
+                class="mb-3 col-12                                                               <?php if (! $mph_option[ 'users_can_unit' ]) {echo 'mph_none';}?>  ">
+                <label for="customRange1" class="form-label">تعداد <?php echo $mph_option[ 'name_unit' ]; ?>:</label>
                 <div class="position-relative">
                     <span id="rangeValue" class="position-absolute translate-middle">1</span>
                     <input name="rangeValue" type="range" class="" id="customRange1" min="1" value="1"

@@ -1,6 +1,6 @@
 <?php
 
-define('MPH_VERSION', '1.3.0');
+define('MPH_VERSION', '1.3.4');
 
 define('MPH_PATH', get_template_directory() . "/");
 define('MPH_INCLUDES', MPH_PATH . 'includes/');

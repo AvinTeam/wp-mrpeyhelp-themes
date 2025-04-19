@@ -149,10 +149,10 @@ form.addEventListener('submit', function (event) {
     //     error = 1;
     // }
 
-    if (newAmount < mph_script.mph_option.pay && mph_script.mph_option.users_can_unit) {
-        error_massege += 'مبلغ نباید از ' + mph_script.mph_option.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' ریال کمتر باشد';
-        error = 1;
-    }
+    // if (newAmount < mph_script.mph_option.pay && mph_script.mph_option.users_can_unit) {
+    //     error_massege += 'مبلغ نباید از ' + mph_script.mph_option.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' ریال کمتر باشد';
+    //     error = 1;
+    // }
     if (newAmount < 10000) {
         error_massege += 'مبلغ نمیتواند کمتر از 10,000 ریال باشد';
         error = 1;
