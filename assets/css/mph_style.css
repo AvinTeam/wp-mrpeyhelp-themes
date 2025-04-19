@@ -1,0 +1,215 @@
+.mph_none {
+    display: none;
+}
+
+@font-face {
+    font-family: "vazir";
+    src: url("../fonts/Vazir-Bold.eot");
+    src: url("../fonts/Vazir-Bold.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/Vazir-Bold.woff2") format("woff2"),
+        url("../fonts/Vazir-Bold.woff") format("woff"),
+        url("../fonts/Vazir-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "vazir";
+    src: url("../fonts/vazir-400.eot");
+    src: url("../fonts/vazir-400.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/vazir-400.woff2") format("woff2"),
+        url("../fonts/vazir-400.woff") format("woff"),
+        url("../fonts/vazir-400.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "vazir";
+    src: url("../fonts/vazir-500.eot");
+    src: url("../fonts/vazir-500.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/vazir-500.woff2") format("woff2"),
+        url("../fonts/vazir-500.woff") format("woff"),
+        url("../fonts/vazir-500.ttf") format("truetype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "vazir";
+    src: url("../fonts/vazir-700.eot");
+    src: url("../fonts/vazir-700.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/vazir-700.woff2") format("woff2"),
+        url("../fonts/vazir-700.woff") format("woff"),
+        url("../fonts/vazir-700.ttf") format("truetype");
+    font-weight: 700;
+}
+
+.mph_all_body {
+    font-family: 'vazir';
+    max-width: 80%;
+    margin: 50px auto;
+    direction: rtl;
+}
+
+#amount {
+    border: none;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+.form-control,
+.form-select {
+    border-radius: 20px;
+}
+
+#rangeValue {
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    appearance: none;
+    margin-top: 20px;
+    -webkit-appearance: none;
+    border-radius: 5px;
+    outline: none;
+    background: linear-gradient(to left, #007bff 50%, #ddd 50%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #007bff;
+    cursor: pointer;
+}
+
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mph_Form_payment input::placeholder {
+    color: #ffffffbd;
+}
+
+#mph_Form_payment input::-webkit-input-placeholder {
+    color: #ffffffbd;
+}
+
+#mph_Form_payment input::-moz-placeholder {
+    color: #ffffffbd;
+}
+
+#mph_Form_payment input:-ms-input-placeholder {
+    color: #ffffffbd;
+}
+
+#mph_Form_payment input::-ms-input-placeholder {
+    color: #ffffffbd;
+}
+
+
+.d-flex span {
+    font-size: 14px;
+    color: #6c757d;
+    transform: translateX(-50%);
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+    margin-right: -12px;
+}
+
+
+.all_cart {
+    text-align: center;
+}
+
+.mph_cart {
+    cursor: pointer;
+    transition: all 0.5s;
+    padding: 5px 10px;
+    border-radius: 10px;
+
+}
+
+.mph_cart:hover {
+    color: #d0a326;
+    cursor: pointer;
+    border: 1px solid #d0a326;
+    padding: 2px 5px;
+}
+
+.mph_cart.copied {
+    background-color: #000;
+    color: white;
+}
+
+
+@media (max-width: 576px) {
+    #rangeValue {
+        font-size: 12px;
+        padding: 1px 4px;
+        top: 13px;
+    }
+
+    .d-flex span {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    body {
+        text-align: center;
+    }
+
+    body p,
+    body label {
+        text-align: center !important;
+        font-size: 15px;
+    }
+}

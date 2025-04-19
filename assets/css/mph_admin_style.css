@@ -1,0 +1,77 @@
+.ma_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+  border-radius: 10px;
+  position: relative;
+}
+
+.mph_btn_add {
+  color: #fff !important;
+  background: #198754 !important;
+  border: 1px solid #198754 !important;
+  margin: 20px 0px !important;
+  width: 200px;
+  border-radius: 10px !important;
+}
+
+.mph_btn_add:hover {
+  background: #157347 !important;
+  border: 1px solid #146c43 !important;
+}
+
+.mph_btn_remove {
+  color: #fff !important;
+  background: #dc3545 !important;
+  border: 1px solid #dc3545 !important;
+  margin-right: 5px !important;
+
+  border-radius: 10px !important;
+}
+
+.mph_btn_remove:hover {
+  background: #bb2d3b !important;
+  border: 1px solid #b02a37 !important;
+}
+
+
+.mph_form table caption {
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+
+.column-type .successful {
+  color: green;
+
+}
+
+.column-type .progress {
+  color: orange;
+}
+
+.column-type .failed {
+  color: red;
+}
+
+
+.column-type .dashicons-yes-alt::before,
+.column-type .dashicons-warning::before,
+.column-type .dashicons-dismiss::before {
+  padding-left: 5px;
+}
+
+th.column-created_at {
+  direction: ltr;
+  width: max-content;
+}
+
+.toplevel_page_mrpayhelp th.column-row {
+  width: max-content;
+  max-width: 60px;
+}
